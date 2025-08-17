@@ -80,7 +80,7 @@ export default function Appointment() {
           <>
 
       <div className="bg-white p-6 rounded-xl shadow-md w-full max-w-lg">
-        <h3 className="text-lg font-semibold mb-3">Appointments111</h3>
+        <h3 className="text-lg font-semibold mb-3">Appointments</h3>
         {appointments.length === 0 ? (
           <p className="text-gray-500">No appointments booked yet.</p>
         ) : (
