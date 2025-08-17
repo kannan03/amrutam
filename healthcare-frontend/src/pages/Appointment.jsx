@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createSlot, getDoctorSlots, getDoctorList, getAllSlots, bookAppointment, getUserAppointments } from "../api";
+import {  getDoctorSlots, deleteAppointment, getAllSlots, bookAppointment, getUserAppointments } from "../api";
 
 export default function Appointment() {
   let token = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null;
@@ -214,14 +214,29 @@ export default function Appointment() {
         {appointments.length === 0 ? (
           <p className="text-gray-500">No Appointments added yet.</p>
         ) : (
-          <ul className="space-y-2">
-            {appointments.map((s, i) => (
-              <li key={i} className="border p-2 rounded">
-                <strong>Date:</strong> {s.date} | <strong>StartTime:</strong>{" "}
-                {s.start_time.replace(':00', '')} | <strong>EndTime:</strong> {s.end_time.replace(':00', '')}
-              </li>
-            ))}
-          </ul>
+<ul className="space-y-2">
+  {appointments.map((s, i) => (
+    <li key={i} className="border p-3 rounded flex justify-between items-center">
+      <div>
+        <strong>Date:</strong> {s.date} |{" "}
+        <strong>Start:</strong> {s.start_time.replace(":00", "")} |{" "}
+        <strong>End:</strong> {s.end_time.replace(":00", "")}
+      </div>
+
+      <button
+        onClick={() => {
+          deleteAppointment(s.id).then((res) => {
+            console.log("Deleted appointment:", s.id);
+            getAllAppointment()
+          });
+        }}
+        className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md shadow-md transition duration-200"
+      >
+        Delete
+      </button>
+    </li>
+  ))}
+</ul>
         )}
       </div>
 </>

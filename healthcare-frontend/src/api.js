@@ -24,5 +24,7 @@ export const getDoctorList = () => API.get(`/doctors`);
 // Example POST request (Book Appointment)
 export const bookAppointment = (data) => API.post("/appointments", data);
 
+export const deleteAppointment = (id) => API.delete(`/appointments/${id}`);
+
 // Example GET request (Get Appointments by User ID)
 export const getUserAppointments = (userId) => API.get(`/appointments/user/${userId}`);

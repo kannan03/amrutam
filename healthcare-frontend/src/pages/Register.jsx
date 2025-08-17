@@ -7,7 +7,7 @@ export default function Register() {
     name: "",
     email: "",
     password_hash: "",
-    role: "patient"
+    role: "user"
   });
   const navigate = useNavigate();
 
