@@ -6,10 +6,7 @@ export default function Appointment() {
   let token = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null;
   let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
   let userId = user ? user.id : "";
-  if( !userId){
-    const navigate = useNavigate();
-    navigate("/login");
-  }
+  const navigate = useNavigate();
 
   const [appointments, setAppointments] = useState([]);
   const [form, setForm] = useState({
@@ -32,9 +29,6 @@ export default function Appointment() {
       return ele.id == form.slot_id;
     });
 
-  console.log("timeSlots==============",timeSlots)
-  console.log("form==============",form)
-  console.log("TTTTTTTTTTTTT",Times[0]['start_time'])
 
   let formData = { ...form, start_time : Times[0]['start_time'], end_time : Times[0]['end_time']};
 
@@ -51,30 +45,33 @@ export default function Appointment() {
   const getAllAppointment =  ()=>{
     let token = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null;
     let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
-    getUserAppointments(user?.id).then((res) => {
-      console.log("getAllAppointment==============", res.data)
-      setAppointments(res.data)
+    if( user && user?.id && token ){
+      getUserAppointments(user?.id).then((res) => {
+        console.log("getAllAppointment==============", res.data)
+        setAppointments(res.data)
+      });  
     }
-  );  
   }
 
-  useEffect(()=>{
-    getAllAppointment();
-  }, []);
 
 
   useEffect(()=>{
 
-    getAllSlots().then((res) => {
-      console.log("getAllslots=============", res.data)
-      setDoctorSlots(res.data)
-    });  
+    if( !userId){
+      console.log("userId=====",userId)
+      navigate("/login");
+    }
+  
+    if( token && userId){
+      getAllSlots().then((res) => {
+        console.log("getAllslots=============", res.data)
+        setDoctorSlots(res.data)
+      }).catch((err)=>{
+  
+      })
+      getAllAppointment();
 
-    getDoctorSlots(2).then((res)=>{
-      console.log("TimeSlots=======", res.data);
-      setTimeSlots(res.data)
-    });
-
+    }
 
   }, [])
 

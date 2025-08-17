@@ -8,10 +8,7 @@ export default function DoctorSlot() {
   let token = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null;
   let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
   let userId = user ? user.id : "";
-  if( !userId){
-    const navigate = useNavigate();
-    navigate("/login");
-  }
+  const navigate = useNavigate();
 
   const [slots, setSlots] = useState([]);
   const [slot, setSlot] = useState({
@@ -46,9 +43,14 @@ export default function DoctorSlot() {
     }
   };
 
+
   useEffect(() => {
     let token = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null;
-    let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+    let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;  
+    if( !user){
+      navigate("/login");
+    }
+
     setSlot( { ...slot, doctor_id : user?.id});
     getTodaySlots();
     }, []);

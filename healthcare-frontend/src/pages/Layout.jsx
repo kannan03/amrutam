@@ -7,8 +7,8 @@ function Layout() {
   let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.setItem("token", null);
+    localStorage.setItem("user", null);
     navigate("/login"); // redirect to login
   };
 
