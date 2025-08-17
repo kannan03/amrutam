@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-
 const authRoutes = require("./routes/auth");
 const slotRoutes = require("./routes/slots");
 const appointmentRoutes = require("./routes/appointments");
@@ -10,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes
+// Routes init
 app.use("/api/auth", authRoutes);
 app.use("/api/slots", slotRoutes);
 app.use("/api/appointments", appointmentRoutes);
