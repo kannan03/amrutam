@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import {  getDoctorSlots, deleteAppointment, getAllSlots, bookAppointment, getUserAppointments } from "../api";
+import { useNavigate } from "react-router-dom";
 
 export default function Appointment() {
   let token = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null;
   let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
   let userId = user ? user.id : "";
+  if( !userId){
+    const navigate = useNavigate();
+    navigate("/login");
+  }
 
   const [appointments, setAppointments] = useState([]);
   const [form, setForm] = useState({
@@ -46,7 +51,7 @@ export default function Appointment() {
   const getAllAppointment =  ()=>{
     let token = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null;
     let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
-    getUserAppointments(user.id).then((res) => {
+    getUserAppointments(user?.id).then((res) => {
       console.log("getAllAppointment==============", res.data)
       setAppointments(res.data)
     }
@@ -86,7 +91,7 @@ export default function Appointment() {
         ) : (
           <ul className="space-y-2">
             {appointments.map((a, i) => {
-              if( a.doctor_id === user.id){
+              if( a.doctor_id === user?.id){
                 (
                   <li key={i} className="border p-2 rounded">
                     <strong>Patient:</strong> {a.user_id} |{" "}
@@ -105,7 +110,7 @@ export default function Appointment() {
        } 
 
               {
-        user && user.role === "user" && (
+        user && user?.role === "user" && (
           <>
                         <form
               onSubmit={handleBook}

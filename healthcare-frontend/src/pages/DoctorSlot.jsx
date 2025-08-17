@@ -1,8 +1,18 @@
 import { createSlot, getDoctorSlots, getDoctorList } from "../api";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import axios  from "axios";
 export default function DoctorSlot() {
+
+  let token = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null;
+  let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+  let userId = user ? user.id : "";
+  if( !userId){
+    const navigate = useNavigate();
+    navigate("/login");
+  }
+
   const [slots, setSlots] = useState([]);
   const [slot, setSlot] = useState({
     doctor_id : "",
@@ -17,7 +27,7 @@ export default function DoctorSlot() {
   const getTodaySlots =  ()=>{
     let token = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null;
     let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
-    getDoctorSlots(user.id).then((res) => {
+    getDoctorSlots(user?.id).then((res) => {
       console.log("22222222222222", res.data)
       setSlots(res.data)
     }
@@ -39,7 +49,7 @@ export default function DoctorSlot() {
   useEffect(() => {
     let token = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null;
     let user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
-    setSlot( { ...slot, doctor_id : user.id});
+    setSlot( { ...slot, doctor_id : user?.id});
     getTodaySlots();
     }, []);
 
