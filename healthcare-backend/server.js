@@ -14,9 +14,9 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 
 // Protected routes (require token)
-app.use("/api/slots", slotRoutes);
-app.use("/api/appointments", appointmentRoutes);
-app.use("/api/doctors", doctorRoutes);
+app.use("/api/slots", authMiddleware, slotRoutes);
+app.use("/api/appointments", authMiddleware, appointmentRoutes);
+app.use("/api/doctors", authMiddleware, doctorRoutes);
 
 const PORT = 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
